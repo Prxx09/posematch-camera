@@ -87,7 +87,6 @@ Native bundle export is not an emulator/device test. Before release verify on a 
 - Catalog fetch is capped at 500 entries; no offline cloud-image cache or pagination yet.
 - Comparison saves on button press, not automatically.
 - No web build, app-store deployment, native-device verification or iOS backup exclusion plugin.
-- GitHub publication is pending a new repository accessible through the connector.
 
 ## Structure
 
