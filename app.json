@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "PoseMatch",
+    "slug": "posematch-camera",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "bundleIdentifier": "com.prxx09.posematch",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.prxx09.posematch",
+      "allowBackup": false,
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      ["expo-camera", { "cameraPermission": "Use the camera to recreate reference poses.", "recordAudioAndroid": false, "barcodeScannerEnabled": false }],
+      ["expo-image-picker", { "photosPermission": "Choose a private reference photo.", "microphonePermission": false }],
+      ["expo-media-library", { "photosPermission": "Access photos you choose.", "savePhotosPermission": "Save photos captured with PoseMatch.", "granularPermissions": ["photo"] }],
+      "expo-sharing",
+      "expo-sqlite"
+    ]
+  }
+}

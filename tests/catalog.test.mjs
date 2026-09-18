@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { validatePose } from '../scripts/catalog-validation.mjs';
+const pose = { title: ' Solo ', category: 'solo', image_path: 'solo/one.jpg' };
+test('normalizes valid catalog metadata', () => { assert.equal(validatePose(pose).title, 'Solo'); assert.equal(validatePose(pose).orientation, 'portrait'); });
+test('rejects traversal', () => assert.throws(() => validatePose({ ...pose, image_path: '../one.jpg' })));
+test('rejects unsupported categories', () => assert.throws(() => validatePose({ ...pose, category: 'unknown' })));
+test('rejects empty title', () => assert.throws(() => validatePose({ ...pose, title: ' ' })));
+test('rejects invalid tags', () => assert.throws(() => validatePose({ ...pose, tags: [1] })));
+test('rejects remote URL as storage path', () => assert.throws(() => validatePose({ ...pose, image_path: 'https://example.com/x.jpg' })));
