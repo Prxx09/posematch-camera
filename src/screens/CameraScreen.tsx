@@ -2,7 +2,11 @@ import React, { useRef, useState } from 'react';
 import { Alert, AppState, Image, Linking, PanResponder, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import Slider from '@react-native-community/slider';
-import { Asset, requestPermissionsAsync } from 'expo-media-library';
+// Expo Go on some installed Android builds exposes the stable legacy native
+// module, but not the new class-based ExpoMediaLibraryNext module.
+// The legacy API supports the only operations this screen needs: permission
+// prompts and saving a captured file.
+import * as MediaLibrary from 'expo-media-library/legacy';
 import * as Sharing from 'expo-sharing';
 import { captureRef } from 'react-native-view-shot';
 import type { PoseReference } from '../types/pose';
@@ -16,10 +20,10 @@ export function CameraScreen({ pose, onBack }: { pose: PoseReference; onBack: ()
     if (!comparison.current || busy || !referenceLoaded || !shotLoaded) return;
     setBusy(true);
     try {
-      const p = await requestPermissionsAsync(true, ['photo']);
+      const p = await MediaLibrary.requestPermissionsAsync(true, ['photo']);
       if (!p.granted) { Alert.alert('Permission needed', 'Allow photo saving in Settings.'); return; }
       const uri = await captureRef(comparison, { format: 'jpg', quality: 0.95, result: 'tmpfile', width: 1440 });
-      await Asset.create(uri);
+      await MediaLibrary.createAssetAsync(uri);
       Alert.alert('Comparison saved', 'Reference and your shot are saved side by side.');
     } catch (e) { Alert.alert('Comparison failed', String(e)); } finally { setBusy(false); }
   };
@@ -51,7 +55,7 @@ export function CameraScreen({ pose, onBack }: { pose: PoseReference; onBack: ()
   const save = async () => {
     if (!photo || busy || saved) return;
     setBusy(true);
-    try { const p = await requestPermissionsAsync(true, ['photo']); if (!p.granted) { Alert.alert('Permission needed', 'Allow saving photos in Settings.'); return; } await Asset.create(photo); setSaved(true); }
+    try { const p = await MediaLibrary.requestPermissionsAsync(true, ['photo']); if (!p.granted) { Alert.alert('Permission needed', 'Allow saving photos in Settings.'); return; } await MediaLibrary.createAssetAsync(photo); setSaved(true); }
     catch (e) { Alert.alert('Save failed', String(e)); } finally { setBusy(false); }
   };
   const share = async () => { try { if (photo && await Sharing.isAvailableAsync()) await Sharing.shareAsync(photo, { mimeType: 'image/jpeg' }); else Alert.alert('Sharing unavailable'); } catch (e) { Alert.alert('Share failed', String(e)); } };
