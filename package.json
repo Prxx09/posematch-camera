@@ -30,6 +30,7 @@
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
     "test": "node --test tests/*.test.mjs",
+    "catalog:source": "node scripts/source-wikimedia-catalog.mjs",
     "catalog:upload": "node --env-file=.env.admin.local scripts/upload-catalog.mjs"
   },
   "private": true
