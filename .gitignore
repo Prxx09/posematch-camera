@@ -2,6 +2,9 @@
 
 # dependencies
 node_modules/
+catalog/wikimedia/
+catalog/wikimedia-manifest.json
+catalog/ATTRIBUTIONS.md
 
 # Expo
 .expo/
