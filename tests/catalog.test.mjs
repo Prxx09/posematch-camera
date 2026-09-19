@@ -8,3 +8,5 @@ test('rejects unsupported categories', () => assert.throws(() => validatePose({ 
 test('rejects empty title', () => assert.throws(() => validatePose({ ...pose, title: ' ' })));
 test('rejects invalid tags', () => assert.throws(() => validatePose({ ...pose, tags: [1] })));
 test('rejects remote URL as storage path', () => assert.throws(() => validatePose({ ...pose, image_path: 'https://example.com/x.jpg' })));
+test('accepts a safe nested storage path', () => assert.equal(validatePose({ ...pose, image_path: 'seed/wikimedia/solo/one.jpg' }).image_path, 'seed/wikimedia/solo/one.jpg'));
+test('preserves source attribution metadata', () => assert.equal(validatePose({ ...pose, provider: 'Wikimedia Commons' }).provider, 'Wikimedia Commons'));
