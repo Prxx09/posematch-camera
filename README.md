@@ -10,7 +10,7 @@ Requires Node 24 and an Expo SDK 57-compatible Expo Go or development build.
 2. Copy `.env.example` to `.env.local`. It contains this project's URL and a public publishable key, not an administrator credential.
 3. Run `npx expo start`.
 4. Open the QR code using Expo Go on a physical phone on the same network.
-5. Select **My poses → Add a reference photo** to test immediately. The curated cloud catalog starts empty.
+5. Browse the curated catalog, or select **My poses → Add a reference photo** to use a private local reference.
 
 Windows PowerShell: `Copy-Item .env.example .env.local`.
 
@@ -31,6 +31,10 @@ The schema has already been applied to the connected project. Do not rerun the m
 ## Populate the public catalog
 
 Only use photos you have permission to redistribute.
+
+The connected backend is preloaded with 180 reusable Wikimedia Commons images: 30 each for solo, couple, group, pet, airport fit check, and mirror selfie. Source pages, creators, and licenses are stored with every `poses` row. The generated local files (`catalog/wikimedia-manifest.json`, `catalog/ATTRIBUTIONS.md`, and image files) are excluded from Git; the deployed copies live in Supabase Storage.
+
+To reproduce a fresh licensed source set locally, run `npm run catalog:source`. The source script accepts only Public Domain, CC0, CC BY, or CC BY-SA files, rejects common non-photo and explicit-content terms, normalizes images to stripped JPEGs, and writes a reviewable manifest. Automated filtering is not a substitute for final human visual review before a public launch.
 
 Dashboard workflow:
 1. Storage → pose-catalog → upload `solo/relaxed.jpg`.
@@ -83,7 +87,7 @@ Native bundle export is not an emulator/device test. Before release verify on a 
 
 ## Current release limitations
 
-- Curated photos must be supplied; no stock photos were copied without a chosen license.
+- The initial Commons catalog is broad and license-safe, but still needs a final product/design curation pass for a consistently modern aesthetic.
 - Catalog fetch is capped at 500 entries; no offline cloud-image cache or pagination yet.
 - Comparison saves on button press, not automatically.
 - No web build, app-store deployment, native-device verification or iOS backup exclusion plugin.
